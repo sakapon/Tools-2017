@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace EventLogConsole
+namespace EventLogPicker
 {
     /// <summary>
     /// Provides a set of methods to access CSV files.
