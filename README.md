@@ -13,5 +13,6 @@ See [document](https://github.com/sakapon/Tools-2017/wiki/Event-Log-Picker).
 Connective Bot is a Twitter bot that will compose words at random from the Wikipedia.  
 See [document](https://github.com/sakapon/Tools-2017/wiki/Connective-Bot).
 
-[@bot_connective](https://twitter.com/bot_connective)  
+[@bot_connective](https://twitter.com/bot_connective)
+
 ![ConnectiveBot](ConnectiveBot/Twitter/ConnectiveBot-20170509.jpg)
