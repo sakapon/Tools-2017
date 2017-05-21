@@ -14,9 +14,8 @@ namespace ConnectiveConsole
 
         static void Main(string[] args)
         {
-            var t = GetRandomConnectedPages();
-            t.Wait();
-            Console.WriteLine(t.Result);
+            var result = GetRandomConnectedPages().GetAwaiter().GetResult();
+            Console.WriteLine(result);
         }
 
         static async Task<string> GetRandomConnectedPages()
