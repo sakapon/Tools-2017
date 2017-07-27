@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace ImageResizer
 {
@@ -19,6 +21,37 @@ namespace ImageResizer
                 graphics.DrawImage(source, 0, 0, width, height);
             }
             return bitmap;
+        }
+
+        public static void SaveImage(this Image image, string filePath) =>
+            image.Save(filePath, ToImageFormat(filePath));
+
+        static ImageFormat ToImageFormat(string filePath)
+        {
+            switch (Path.GetExtension(filePath).ToLowerInvariant())
+            {
+                case ".bmp":
+                    return ImageFormat.Bmp;
+                case ".gif":
+                    return ImageFormat.Gif;
+                case ".jpeg":
+                case ".jpg":
+                case ".jpe":
+                    return ImageFormat.Jpeg;
+                case ".png":
+                    return ImageFormat.Png;
+                case ".tiff":
+                case ".tif":
+                    return ImageFormat.Tiff;
+                case ".ico":
+                    return ImageFormat.Icon;
+                case ".wmf":
+                    return ImageFormat.Wmf;
+                case ".emf":
+                    return ImageFormat.Emf;
+                default:
+                    throw new ArgumentException("Can not encode bitmaps for the specified file extension.", nameof(filePath));
+            }
         }
     }
 }
