@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BitmapHelper.cs" />
     <Compile Include="BitmapUtility.cs" />
+    <Compile Include="Enumerable2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
