@@ -32,6 +32,48 @@ namespace ImageResizer
                 Console.WriteLine($"{path} is not found.");
         }
 
+        static CommandArgs ParseArgs(string[] args)
+        {
+            var cargs = new CommandArgs();
+
+            if (args.TryGetItem(0, out var a_help) &&
+                (a_help.Contains("?") || string.Equals(a_help, "-Help", StringComparison.InvariantCultureIgnoreCase)))
+            {
+                cargs.Help = true;
+                return cargs;
+            }
+
+            if (args.TryGetItem(0, out var a_path) && !a_path.StartsWith("-"))
+                cargs.Path = a_path;
+
+            if (TryGetDouble(args, "Scale", out var scale))
+                cargs.Scale = scale;
+            if (TryGetInt32(args, "Width", out var width))
+                cargs.Width = width;
+            if (TryGetInt32(args, "Height", out var height))
+                cargs.Height = height;
+
+            return cargs;
+        }
+
+        static bool TryGetInt32(string[] args, string command, out int value)
+        {
+            value = -1;
+            var index = args.FirstIndex(a => string.Equals(a, "-" + command, StringComparison.InvariantCultureIgnoreCase));
+            return index.HasValue &&
+                args.TryGetItem(index.Value + 1, out var arg) &&
+                int.TryParse(arg, out value);
+        }
+
+        static bool TryGetDouble(string[] args, string command, out double value)
+        {
+            value = -1;
+            var index = args.FirstIndex(a => string.Equals(a, "-" + command, StringComparison.InvariantCultureIgnoreCase));
+            return index.HasValue &&
+                args.TryGetItem(index.Value + 1, out var arg) &&
+                double.TryParse(arg, out value);
+        }
+
         static void ScaleFiles(string dirPath, double scale)
         {
             var newDirPath = $"{dirPath}-re";
@@ -57,5 +99,14 @@ namespace ImageResizer
 
             BitmapHelper.ScaleImageFile(filePath, newFilePath, scale);
         }
+    }
+
+    public class CommandArgs
+    {
+        public bool Help { get; set; }
+        public string Path { get; set; }
+        public double? Scale { get; set; }
+        public int? Width { get; set; }
+        public int? Height { get; set; }
     }
 }
