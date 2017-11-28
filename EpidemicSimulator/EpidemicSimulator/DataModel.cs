@@ -32,11 +32,11 @@ namespace EpidemicSimulator
 
     public struct VInitialSettings
     {
-        public int Width;
-        public int Height;
+        public int Width { get; set; }
+        public int Height { get; set; }
 
-        public double SusceptibleRatio;
-        public double InfectiousRatio;
+        public double SusceptibleRatio { get; set; }
+        public double InfectiousRatio { get; set; }
     }
 
     public class RealtimeSettings
@@ -61,21 +61,29 @@ namespace EpidemicSimulator
 
     public struct VRealtimeSettings
     {
-        public double InfectionRate;
-        public double RecoveryRate;
-        public double DeimmunizationRate;
+        public double InfectionRate { get; set; }
+        public double RecoveryRate { get; set; }
+        public double DeimmunizationRate { get; set; }
 
-        public double ExecutionInterval;
-        public bool IsMapLooping;
+        public double ExecutionInterval { get; set; }
+        public bool IsMapLooping { get; set; }
+    }
+
+    public struct InfectionModel
+    {
+        public VInitialSettings InitialSettings { get; set; }
+
+        public int Turn { get; set; }
+        public InfectionStatus[,] Statuses { get; set; }
     }
 
     public struct PopulationSummary
     {
-        public int Total;
+        public int Total { get; set; }
 
-        public int Susceptible;
-        public int Infectious;
-        public int Recovered;
+        public int Susceptible { get; set; }
+        public int Infectious { get; set; }
+        public int Recovered { get; set; }
     }
 
     public static class DataModel
