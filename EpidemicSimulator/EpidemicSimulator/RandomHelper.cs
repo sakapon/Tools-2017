@@ -25,5 +25,9 @@ namespace EpidemicSimulator
 
             return source.Last().Key;
         }
+
+        // 0 <= rate <= 1
+        public static T GetRandomElement<T>(double rate, T trueValue, T falseValue) =>
+            random.NextDouble() < rate ? trueValue : falseValue;
     }
 }
