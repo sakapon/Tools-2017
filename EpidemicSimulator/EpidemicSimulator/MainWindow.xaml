@@ -5,13 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EpidemicSimulator"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:ToggleSwitch="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
         x:Class="EpidemicSimulator.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Epidemic Simulator" Height="800" Width="1200" FontSize="24">
+    <Window.Resources>
+        <Style x:Key="CaptionTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="10,10,10,4"/>
+        </Style>
+        <Style x:Key="SliderStyle" TargetType="{x:Type Slider}">
+            <Setter Property="Width" Value="240"/>
+            <Setter Property="Margin" Value="10,4,10,10"/>
+            <Setter Property="IsMoveToPointEnabled" Value="True"/>
+        </Style>
+        <Style x:Key="SwitchStyle" TargetType="{x:Type ToggleSwitch:HorizontalToggleSwitch}">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="ThumbSize" Value="100"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+    </Window.Resources>
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
-    <Grid>
-        
-    </Grid>
+    <Viewbox>
+        <DockPanel Height="800" Width="1200" Margin="10">
+            <StackPanel DockPanel.Dock="Right" Width="300">
+                <ToggleSwitch:HorizontalToggleSwitch Style="{DynamicResource SwitchStyle}" IsChecked="{Binding AppModel.IsRunning.Value, Mode=TwoWay}"/>
+            </StackPanel>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding InfectionModel.Value.Turn, StringFormat=Turn: \{0\}}" Margin="10" HorizontalAlignment="Center"/>
+            <Image Source="{Binding PopulationImage.Value}"/>
+        </DockPanel>
+    </Viewbox>
 </Window>
