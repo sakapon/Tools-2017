@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
+using System.Threading;
 using Reactive.Bindings;
 
 namespace EpidemicSimulator
@@ -14,6 +15,25 @@ namespace EpidemicSimulator
 
         public ReactiveProperty<bool> IsRunning { get; } = new ReactiveProperty<bool>(false);
         public InfectionModel CurrentInfection { get; set; }
+
+        public AppModel()
+        {
+            IsRunning
+                .Where(b => b)
+                .Subscribe(_ => Simulate());
+        }
+
+        void Simulate()
+        {
+            CurrentInfection = InitializeInfection(InitialSettings.ToValue());
+
+            while (IsRunning.Value)
+            {
+                var rs = RealtimeSettings.ToValue();
+                Thread.Sleep(TimeSpan.FromSeconds(rs.ExecutionInterval));
+                CurrentInfection = NextInfection(CurrentInfection, rs);
+            }
+        }
 
         static InfectionModel InitializeInfection(VInitialSettings s)
         {
