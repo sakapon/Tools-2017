@@ -18,6 +18,8 @@ namespace EpidemicSimulator
 
         public AppModel()
         {
+            CurrentInfection = InitializeInfection(InitialSettings.ToValue());
+
             IsRunning
                 .Where(b => b)
                 .Subscribe(_ => Simulate());

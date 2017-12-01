@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using Reactive.Bindings;
 
@@ -147,6 +149,34 @@ namespace EpidemicSimulator
                 }
 
             return summary;
+        }
+
+        static readonly Dictionary<InfectionStatus, Color> StatusColors = new Dictionary<InfectionStatus, Color>
+        {
+            { InfectionStatus.Susceptible, Color.LightSkyBlue },
+            { InfectionStatus.Infectious, Color.OrangeRed },
+            { InfectionStatus.Recovered, Color.Green },
+        };
+
+        public static byte[] GetBitmapBinary(InfectionModel model)
+        {
+            using (var bitmap = new Bitmap(model.InitialSettings.Size.Width, model.InitialSettings.Size.Height))
+            {
+                for (var i = 0; i < bitmap.Width; i++)
+                    for (var j = 0; j < bitmap.Height; j++)
+                        bitmap.SetPixel(i, j, StatusColors[model.Statuses[i, j]]);
+
+                return ImageToBytes(bitmap, ImageFormat.Png);
+            }
+        }
+
+        static byte[] ImageToBytes(Image image, ImageFormat format)
+        {
+            using (var memory = new MemoryStream())
+            {
+                image.Save(memory, format);
+                return memory.ToArray();
+            }
         }
     }
 }
