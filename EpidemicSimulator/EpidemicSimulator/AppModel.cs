@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
 using Reactive.Bindings;
@@ -22,6 +23,7 @@ namespace EpidemicSimulator
 
             IsRunning
                 .Where(b => b)
+                .ObserveOn(TaskPoolScheduler.Default)
                 .Subscribe(_ => Simulate());
         }
 
