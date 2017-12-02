@@ -9,7 +9,7 @@ namespace EpidemicSimulator
     public class MainViewModel
     {
         static readonly TimeSpan RenderingInterval = TimeSpan.FromSeconds(1 / 30.0);
-        const int PopulationBarWidth = 1000;
+        const int PopulationBarWidth = 800;
 
         public AppModel AppModel { get; } = new AppModel();
 

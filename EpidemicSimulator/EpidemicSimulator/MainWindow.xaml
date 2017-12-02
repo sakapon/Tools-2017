@@ -13,6 +13,11 @@
         <Style x:Key="CaptionTextStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="10,10,10,4"/>
         </Style>
+        <Style x:Key="PopulationTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="FontSize" Value="32"/>
+        </Style>
         <Style x:Key="SliderStyle" TargetType="{x:Type Slider}">
             <Setter Property="Width" Value="240"/>
             <Setter Property="Margin" Value="10,4,10,10"/>
@@ -25,6 +30,9 @@
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Margin" Value="10"/>
         </Style>
+        <SolidColorBrush x:Key="SusceptibleColorBrush" Color="#FF0066CC"/>
+        <SolidColorBrush x:Key="InfectiousColorBrush" Color="#FFFF6600"/>
+        <SolidColorBrush x:Key="RecoveredColorBrush" Color="#FF339900"/>
     </Window.Resources>
     <Window.DataContext>
         <local:MainViewModel/>
@@ -35,6 +43,18 @@
                 <ToggleSwitch:HorizontalToggleSwitch Style="{DynamicResource SwitchStyle}" IsChecked="{Binding AppModel.IsRunning.Value, Mode=TwoWay}"/>
             </StackPanel>
             <TextBlock DockPanel.Dock="Top" Text="{Binding InfectionModel.Value.Turn, StringFormat=Turn: \{0\}}" Margin="10" HorizontalAlignment="Center"/>
+            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="10">
+                <UniformGrid Height="60" Columns="3" DataContext="{Binding PopulationSummary.Value}">
+                    <TextBlock Text="{Binding Susceptible, StringFormat=S: \{0\}}" Foreground="{DynamicResource SusceptibleColorBrush}" Style="{DynamicResource PopulationTextStyle}"/>
+                    <TextBlock Text="{Binding Infectious, StringFormat=I: \{0\}}" Foreground="{DynamicResource InfectiousColorBrush}" Style="{DynamicResource PopulationTextStyle}"/>
+                    <TextBlock Text="{Binding Recovered, StringFormat=R: \{0\}}" Foreground="{DynamicResource RecoveredColorBrush}" Style="{DynamicResource PopulationTextStyle}"/>
+                </UniformGrid>
+                <StackPanel Height="50" Orientation="Horizontal" DataContext="{Binding PopulationLayout.Value}" Margin="10">
+                    <Rectangle Width="{Binding SusceptibleWidth}" Fill="{DynamicResource SusceptibleColorBrush}"/>
+                    <Rectangle Width="{Binding InfectiousWidth}" Fill="{DynamicResource InfectiousColorBrush}"/>
+                    <Rectangle Width="{Binding RecoveredWidth}" Fill="{DynamicResource RecoveredColorBrush}"/>
+                </StackPanel>
+            </StackPanel>
             <Image Source="{Binding PopulationImage.Value}"/>
         </DockPanel>
     </Viewbox>
