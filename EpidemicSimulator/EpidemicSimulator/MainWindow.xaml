@@ -33,6 +33,7 @@
         <SolidColorBrush x:Key="SusceptibleColorBrush" Color="#FF0066CC"/>
         <SolidColorBrush x:Key="InfectiousColorBrush" Color="#FFFF6600"/>
         <SolidColorBrush x:Key="RecoveredColorBrush" Color="#FF339900"/>
+        <local:FuncConverter x:Key="InverseBooleanConverter" ToFunc="{x:Static local:MainWindow.InverseBoolean}"/>
     </Window.Resources>
     <Window.DataContext>
         <local:MainViewModel/>
@@ -40,6 +41,20 @@
     <Viewbox>
         <DockPanel Height="800" Width="1200" Margin="10">
             <StackPanel DockPanel.Dock="Right" Width="300">
+                <Grid IsEnabled="{Binding AppModel.IsRunning.Value, Converter={StaticResource InverseBooleanConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Width:" Style="{DynamicResource CaptionTextStyle}"/>
+                    <TextBlock Text="{Binding AppModel.InitialSettings.Width.Value}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right"/>
+                    <Slider Value="{Binding AppModel.InitialSettings.Width.Value}" Style="{DynamicResource SliderStyle}" Maximum="400" Minimum="10" LargeChange="10" SmallChange="1" Grid.Row="1"/>
+                    <TextBlock Text="Height:" Style="{DynamicResource CaptionTextStyle}" Grid.Row="2"/>
+                    <TextBlock Text="{Binding AppModel.InitialSettings.Height.Value}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right" Grid.Row="2"/>
+                    <Slider Value="{Binding AppModel.InitialSettings.Height.Value}" Style="{DynamicResource SliderStyle}" Maximum="400" Minimum="10" LargeChange="10" SmallChange="1" Grid.Row="3"/>
+                </Grid>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

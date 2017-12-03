@@ -20,6 +20,8 @@ namespace EpidemicSimulator
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static readonly Func<bool, bool> InverseBoolean = x => !x;
+
         public MainWindow()
         {
             InitializeComponent();
