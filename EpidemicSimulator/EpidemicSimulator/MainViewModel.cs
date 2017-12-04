@@ -22,8 +22,8 @@ namespace EpidemicSimulator
 
         public MainViewModel()
         {
-            PopulationImage = InfectionModel.Select(DataModel.GetBitmapBinary).ToReadOnlyReactiveProperty();
-            PopulationSummary = InfectionModel.Select(DataModel.ToSummary).ToReadOnlyReactiveProperty();
+            PopulationImage = InfectionModel.Select(DataModelHelper.GetBitmapBinary).ToReadOnlyReactiveProperty();
+            PopulationSummary = InfectionModel.Select(DataModelHelper.ToSummary).ToReadOnlyReactiveProperty();
             PopulationLayout = PopulationSummary.Select(ToLayout).ToReadOnlyReactiveProperty();
 
             AppModel.IsRunning

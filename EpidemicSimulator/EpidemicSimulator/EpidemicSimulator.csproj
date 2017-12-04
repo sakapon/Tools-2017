@@ -83,6 +83,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataModelHelper.cs" />
     <Compile Include="FuncConverter.cs" />
     <Compile Include="RandomHelper.cs" />
     <Page Include="MainWindow.xaml">

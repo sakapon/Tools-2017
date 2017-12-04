@@ -80,7 +80,7 @@ namespace EpidemicSimulator
                     switch (model.Statuses[i, j])
                     {
                         case InfectionStatus.Susceptible:
-                            var count_I = DataModel.GetNeighborPoints(size, new Point(i, j), rs.IsMapLooping)
+                            var count_I = DataModelHelper.GetNeighborPoints(size, new Point(i, j), rs.IsMapLooping)
                                 .Select(p => model.Statuses[p.X, p.Y])
                                 .Count(x => x == InfectionStatus.Infectious);
                             statuses[i, j] = count_I == 0 ? InfectionStatus.Susceptible : RandomHelper.GetRandomElement(1 - Math.Pow(1 - β, count_I), InfectionStatus.Infectious, InfectionStatus.Susceptible);
