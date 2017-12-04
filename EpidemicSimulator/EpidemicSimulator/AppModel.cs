@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading;
 using Reactive.Bindings;
 
@@ -11,15 +12,28 @@ namespace EpidemicSimulator
 {
     public class AppModel
     {
+        static readonly TimeSpan SnapshotInterval = TimeSpan.FromSeconds(1 / 30.0);
+
         public InitialSettings InitialSettings { get; } = new InitialSettings();
         public RealtimeSettings RealtimeSettings { get; } = new RealtimeSettings();
 
+        InfectionModel _CurrentInfection;
+        public ReactiveProperty<InfectionModel> InfectionSnapshot { get; } = new ReactiveProperty<InfectionModel>();
+
         public ReactiveProperty<bool> IsRunning { get; } = new ReactiveProperty<bool>(false);
-        public InfectionModel CurrentInfection { get; set; }
 
         public AppModel()
         {
-            CurrentInfection = InitializeInfection(InitialSettings.ToValue());
+            _CurrentInfection = InitializeInfection(InitialSettings.ToValue());
+            InfectionSnapshot.Value = _CurrentInfection;
+
+            CreateObserver(InitialSettings)
+                .Throttle(TimeSpan.FromSeconds(0.1))
+                .Subscribe(_ =>
+                {
+                    _CurrentInfection = InitializeInfection(InitialSettings.ToValue());
+                    InfectionSnapshot.Value = _CurrentInfection;
+                });
 
             IsRunning
                 .Where(b => b)
@@ -29,14 +43,33 @@ namespace EpidemicSimulator
 
         void Simulate()
         {
-            CurrentInfection = InitializeInfection(InitialSettings.ToValue());
+            var subscription = Observable.Interval(SnapshotInterval)
+                .Subscribe(_ => InfectionSnapshot.Value = _CurrentInfection);
+
+            if (_CurrentInfection.Turn > 0)
+                _CurrentInfection = InitializeInfection(InitialSettings.ToValue());
 
             while (IsRunning.Value)
             {
                 var rs = RealtimeSettings.ToValue();
                 Thread.Sleep(TimeSpan.FromSeconds(rs.ExecutionInterval));
-                CurrentInfection = NextInfection(CurrentInfection, rs);
+                _CurrentInfection = NextInfection(_CurrentInfection, rs);
             }
+
+            subscription.Dispose();
+        }
+
+        static Subject<int> CreateObserver(InitialSettings s)
+        {
+            var subject = new Subject<int>();
+
+            s.Width.Merge(s.Height)
+                .Subscribe(subject);
+            s.SusceptibleRatio.Merge(s.InfectiousRatio)
+                .Select(x => 0)
+                .Subscribe(subject);
+
+            return subject;
         }
 
         static InfectionModel InitializeInfection(VInitialSettings s)

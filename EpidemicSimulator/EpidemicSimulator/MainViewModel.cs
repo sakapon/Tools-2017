@@ -8,38 +8,19 @@ namespace EpidemicSimulator
 {
     public class MainViewModel
     {
-        static readonly TimeSpan RenderingInterval = TimeSpan.FromSeconds(1 / 30.0);
         const int PopulationBarWidth = 800;
 
         public AppModel AppModel { get; } = new AppModel();
 
-        public ReactiveProperty<InfectionModel> InfectionModel { get; } = new ReactiveProperty<InfectionModel>(mode: ReactivePropertyMode.DistinctUntilChanged);
         public ReadOnlyReactiveProperty<byte[]> PopulationImage { get; }
         public ReadOnlyReactiveProperty<PopulationSummary> PopulationSummary { get; }
         public ReadOnlyReactiveProperty<PopulationLayout> PopulationLayout { get; }
 
-        IDisposable subscription;
-
         public MainViewModel()
         {
-            PopulationImage = InfectionModel.Select(DataModelHelper.GetBitmapBinary).ToReadOnlyReactiveProperty();
-            PopulationSummary = InfectionModel.Select(DataModelHelper.ToSummary).ToReadOnlyReactiveProperty();
+            PopulationImage = AppModel.InfectionSnapshot.Select(DataModelHelper.GetBitmapBinary).ToReadOnlyReactiveProperty();
+            PopulationSummary = AppModel.InfectionSnapshot.Select(DataModelHelper.ToSummary).ToReadOnlyReactiveProperty();
             PopulationLayout = PopulationSummary.Select(ToLayout).ToReadOnlyReactiveProperty();
-
-            AppModel.IsRunning
-                .Where(b => b)
-                .Subscribe(b =>
-                {
-                    subscription = Observable.Interval(RenderingInterval)
-                        .Subscribe(_ => InfectionModel.Value = AppModel.CurrentInfection);
-                });
-            AppModel.IsRunning
-                .Where(b => !b)
-                .Subscribe(b =>
-                {
-                    subscription?.Dispose();
-                    subscription = null;
-                });
         }
 
         static PopulationLayout ToLayout(PopulationSummary s)

@@ -83,7 +83,7 @@
                 </Grid>
                 <ToggleSwitch:HorizontalToggleSwitch Style="{DynamicResource SwitchStyle}" IsChecked="{Binding AppModel.IsRunning.Value, Mode=TwoWay}"/>
             </StackPanel>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding InfectionModel.Value.Turn, StringFormat=Turn: \{0\}}" Margin="10" HorizontalAlignment="Center"/>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding AppModel.InfectionSnapshot.Value.Turn, StringFormat=Turn: \{0\}}" Margin="10" HorizontalAlignment="Center"/>
             <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="10">
                 <UniformGrid Height="60" Columns="3" DataContext="{Binding PopulationSummary.Value}">
                     <TextBlock Text="{Binding Susceptible, StringFormat=S: \{0\}}" Foreground="{DynamicResource SusceptibleColorBrush}" Style="{DynamicResource PopulationTextStyle}"/>
