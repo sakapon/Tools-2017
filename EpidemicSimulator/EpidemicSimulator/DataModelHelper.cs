@@ -73,9 +73,9 @@ namespace EpidemicSimulator
 
         static readonly Dictionary<InfectionStatus, Color> StatusColors = new Dictionary<InfectionStatus, Color>
         {
-            { InfectionStatus.Susceptible, Color.LightSkyBlue },
-            { InfectionStatus.Infectious, Color.OrangeRed },
-            { InfectionStatus.Recovered, Color.Green },
+            { InfectionStatus.Susceptible, Color.FromArgb(153, 204, 255) },
+            { InfectionStatus.Infectious, Color.FromArgb(255, 102, 0) },
+            { InfectionStatus.Recovered, Color.FromArgb(51, 153, 0) },
         };
 
         public static byte[] GetBitmapBinary(InfectionModel model)
