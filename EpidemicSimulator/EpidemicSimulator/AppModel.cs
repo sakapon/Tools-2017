@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -59,14 +60,15 @@ namespace EpidemicSimulator
             subscription.Dispose();
         }
 
-        static Subject<int> CreateObserver(InitialSettings s)
+        static Subject<Unit> CreateObserver(InitialSettings s)
         {
-            var subject = new Subject<int>();
+            var subject = new Subject<Unit>();
 
             s.Width.Merge(s.Height)
+                .Select(_ => Unit.Default)
                 .Subscribe(subject);
             s.SusceptibleRatio.Merge(s.InfectiousRatio)
-                .Select(x => 0)
+                .Select(_ => Unit.Default)
                 .Subscribe(subject);
 
             return subject;
