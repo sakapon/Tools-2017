@@ -8,14 +8,13 @@
         xmlns:ToggleSwitch="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
         x:Class="EpidemicSimulator.MainWindow"
         mc:Ignorable="d"
-        Title="Epidemic Simulator" Height="800" Width="1200" FontSize="24">
+        Title="Epidemic Simulator" Height="800" Width="1200" FontSize="22">
     <Window.Resources>
         <Style x:Key="CaptionTextStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="10,10,10,4"/>
         </Style>
         <Style x:Key="PopulationTextStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
             <Setter Property="FontSize" Value="32"/>
         </Style>
         <Style x:Key="SliderStyle" TargetType="{x:Type Slider}">
@@ -40,7 +39,7 @@
     </Window.DataContext>
     <Viewbox>
         <DockPanel Height="800" Width="1200" Margin="10">
-            <StackPanel DockPanel.Dock="Right" Width="300">
+            <StackPanel DockPanel.Dock="Right" Margin="10">
                 <Grid IsEnabled="{Binding AppModel.IsRunning.Value, Converter={StaticResource InverseBooleanConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -83,9 +82,9 @@
                 </Grid>
                 <ToggleSwitch:HorizontalToggleSwitch Style="{DynamicResource SwitchStyle}" IsChecked="{Binding AppModel.IsRunning.Value, Mode=TwoWay}"/>
             </StackPanel>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding AppModel.InfectionSnapshot.Value.Turn, StringFormat=Turn: \{0\}}" Margin="10" HorizontalAlignment="Center"/>
-            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="10">
-                <UniformGrid Height="60" Columns="3" DataContext="{Binding PopulationSummary.Value}">
+            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="10,0,10,20">
+                <TextBlock Text="{Binding AppModel.InfectionSnapshot.Value.Turn, StringFormat=Turn: \{0\}}" Margin="10" HorizontalAlignment="Center" FontSize="24"/>
+                <UniformGrid Columns="3" DataContext="{Binding PopulationSummary.Value}">
                     <TextBlock Text="{Binding Susceptible, StringFormat=S: \{0\}}" Foreground="{DynamicResource SusceptibleColorBrush}" Style="{DynamicResource PopulationTextStyle}"/>
                     <TextBlock Text="{Binding Infectious, StringFormat=I: \{0\}}" Foreground="{DynamicResource InfectiousColorBrush}" Style="{DynamicResource PopulationTextStyle}"/>
                     <TextBlock Text="{Binding Recovered, StringFormat=R: \{0\}}" Foreground="{DynamicResource RecoveredColorBrush}" Style="{DynamicResource PopulationTextStyle}"/>
@@ -96,7 +95,7 @@
                     <Rectangle Width="{Binding RecoveredWidth}" Fill="{DynamicResource RecoveredColorBrush}"/>
                 </StackPanel>
             </StackPanel>
-            <Image Source="{Binding PopulationImage.Value}"/>
+            <Image Source="{Binding PopulationImage.Value}" Margin="20"/>
         </DockPanel>
     </Viewbox>
 </Window>
