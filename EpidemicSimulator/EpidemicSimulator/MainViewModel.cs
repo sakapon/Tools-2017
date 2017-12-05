@@ -25,14 +25,14 @@ namespace EpidemicSimulator
 
         static PopulationLayout ToLayout(PopulationSummary s)
         {
-            var width_s = (int)Math.Round(PopulationBarWidth * ((double)s.Susceptible / s.Total), MidpointRounding.AwayFromZero);
             var width_i = (int)Math.Round(PopulationBarWidth * ((double)s.Infectious / s.Total), MidpointRounding.AwayFromZero);
+            var width_r = (int)Math.Round(PopulationBarWidth * ((double)s.Recovered / s.Total), MidpointRounding.AwayFromZero);
 
             return new PopulationLayout
             {
-                SusceptibleWidth = width_s,
+                SusceptibleWidth = PopulationBarWidth - width_i - width_r,
                 InfectiousWidth = width_i,
-                RecoveredWidth = PopulationBarWidth - width_s - width_i,
+                RecoveredWidth = width_r,
             };
         }
     }
