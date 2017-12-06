@@ -20,11 +20,12 @@ namespace EpidemicSimulator
     /// </summary>
     public partial class MainWindow : Window
     {
-        const double SliderWidth = 280;
+        const double SliderWidthOffset = 11;
+        const double SliderWidth = 280 - SliderWidthOffset;
 
         public static readonly Func<bool, bool> InverseBoolean = x => !x;
-        public static readonly Func<double, double> ToSusceptibleRatioWidth = x => SliderWidth * x;
-        public static readonly Func<double, double> ToInfectiousRatioWidth = x => SliderWidth * (x - 0.01);
+        public static readonly Func<double, double> ToSusceptibleRatioWidth = x => SliderWidth * x + SliderWidthOffset;
+        public static readonly Func<double, double> ToInfectiousRatioWidth = x => SliderWidth * (x - 0.01) + SliderWidthOffset;
 
         public MainWindow()
         {

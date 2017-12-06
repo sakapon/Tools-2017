@@ -62,7 +62,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Width:" Style="{DynamicResource CaptionTextStyle}"/>
                     <TextBlock Text="{Binding AppModel.InitialSettings.Width.Value}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right"/>
@@ -75,8 +74,10 @@
                         <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.InfectiousRatio, StringFormat=S: \{0:F2\}}" Foreground="{DynamicResource InfectiousColorBrush}" HorizontalAlignment="Center"/>
                         <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.RecoveredRatio, StringFormat=S: \{0:F2\}}" Foreground="{DynamicResource RecoveredColorBrush}" HorizontalAlignment="Center"/>
                     </UniformGrid>
-                    <Slider Value="{Binding SusceptibleRatioVar.Value}" Maximum="{Binding SusceptibleRatioMaxValue.Value}" Width="{Binding SusceptibleRatioMaxValue.Value, Converter={StaticResource ToSusceptibleRatioWidthConverter}}" Style="{DynamicResource RateSliderStyle}" Grid.Row="5" HorizontalAlignment="Left"/>
-                    <Slider Value="{Binding InfectiousRatioVar.Value}" Maximum="{Binding InfectiousRatioMaxValue.Value}" Width="{Binding InfectiousRatioMaxValue.Value, Converter={StaticResource ToInfectiousRatioWidthConverter}}" Style="{DynamicResource RateSliderStyle}" Grid.Row="6" HorizontalAlignment="Right" Minimum="0.01"/>
+                    <Grid Width="280" Height="38" Margin="10,4,10,10" Grid.Row="5">
+                        <Slider Value="{Binding SusceptibleRatioVar.Value}" Maximum="{Binding SusceptibleRatioMaxValue.Value}" Width="{Binding SusceptibleRatioMaxValue.Value, Converter={StaticResource ToSusceptibleRatioWidthConverter}}" Style="{DynamicResource RateSliderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0"/>
+                        <Slider Value="{Binding InfectiousRatioVar.Value}" Maximum="{Binding InfectiousRatioMaxValue.Value}" Width="{Binding InfectiousRatioMaxValue.Value, Converter={StaticResource ToInfectiousRatioWidthConverter}}" Style="{DynamicResource RateSliderStyle}" Minimum="0.01" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0"/>
+                    </Grid>
                 </Grid>
                 <Grid>
                     <Grid.RowDefinitions>
