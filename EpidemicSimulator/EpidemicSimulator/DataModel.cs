@@ -13,20 +13,30 @@ namespace EpidemicSimulator
         Recovered,
     }
 
+    public struct PopulationRatio
+    {
+        public double SusceptibleRatio { get; set; }
+        public double InfectiousRatio { get; set; }
+        public double RecoveredRatio { get; set; }
+    }
+
     public class InitialSettings
     {
         public ReactiveProperty<int> Width { get; } = new ReactiveProperty<int>(200);
         public ReactiveProperty<int> Height { get; } = new ReactiveProperty<int>(200);
 
-        public ReactiveProperty<double> SusceptibleRatio { get; } = new ReactiveProperty<double>(0.7);
-        public ReactiveProperty<double> InfectiousRatio { get; } = new ReactiveProperty<double>(0.1);
+        public ReactiveProperty<PopulationRatio> PopulationRatio { get; } = new ReactiveProperty<PopulationRatio>(new PopulationRatio
+        {
+            SusceptibleRatio = 0.7,
+            InfectiousRatio = 0.1,
+            RecoveredRatio = 0.2,
+        });
 
         public VInitialSettings ToValue() => new VInitialSettings
         {
             Size = new Size(Width.Value, Height.Value),
 
-            SusceptibleRatio = SusceptibleRatio.Value,
-            InfectiousRatio = InfectiousRatio.Value,
+            PopulationRatio = PopulationRatio.Value,
         };
     }
 
@@ -34,8 +44,7 @@ namespace EpidemicSimulator
     {
         public Size Size { get; set; }
 
-        public double SusceptibleRatio { get; set; }
-        public double InfectiousRatio { get; set; }
+        public PopulationRatio PopulationRatio { get; set; }
     }
 
     public class RealtimeSettings
@@ -44,7 +53,7 @@ namespace EpidemicSimulator
         public ReactiveProperty<double> RecoveryRate { get; } = new ReactiveProperty<double>(0.2);
         public ReactiveProperty<double> DeimmunizationRate { get; } = new ReactiveProperty<double>(0.3);
 
-        public ReactiveProperty<double> ExecutionInterval { get; } = new ReactiveProperty<double>(0.05);
+        public ReactiveProperty<double> ExecutionInterval { get; } = new ReactiveProperty<double>(0.02);
         public ReactiveProperty<bool> IsMapLooping { get; } = new ReactiveProperty<bool>(false);
 
         public VRealtimeSettings ToValue() => new VRealtimeSettings

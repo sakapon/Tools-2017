@@ -67,7 +67,7 @@ namespace EpidemicSimulator
             s.Width.Merge(s.Height)
                 .Select(_ => Unit.Default)
                 .Subscribe(subject);
-            s.SusceptibleRatio.Merge(s.InfectiousRatio)
+            s.PopulationRatio
                 .Select(_ => Unit.Default)
                 .Subscribe(subject);
 
@@ -80,9 +80,9 @@ namespace EpidemicSimulator
 
             var probs = new Dictionary<InfectionStatus, double>
             {
-                { InfectionStatus.Susceptible, s.SusceptibleRatio },
-                { InfectionStatus.Infectious, s.InfectiousRatio },
-                { InfectionStatus.Recovered, 1.0 - s.SusceptibleRatio - s.InfectiousRatio },
+                { InfectionStatus.Susceptible, s.PopulationRatio.SusceptibleRatio },
+                { InfectionStatus.Infectious, s.PopulationRatio.InfectiousRatio },
+                { InfectionStatus.Recovered, s.PopulationRatio.RecoveredRatio },
             };
 
             for (var i = 0; i < s.Size.Width; i++)
