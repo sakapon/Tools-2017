@@ -71,8 +71,8 @@
                     <Slider Value="{Binding AppModel.InitialSettings.Height.Value}" Style="{DynamicResource SizeSliderStyle}" Grid.Row="3"/>
                     <UniformGrid Columns="3" Margin="10,10,10,4" Grid.Row="4">
                         <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.SusceptibleRatio, StringFormat=S: \{0:F2\}}" Foreground="{DynamicResource SusceptibleColorBrush}" HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.InfectiousRatio, StringFormat=S: \{0:F2\}}" Foreground="{DynamicResource InfectiousColorBrush}" HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.RecoveredRatio, StringFormat=S: \{0:F2\}}" Foreground="{DynamicResource RecoveredColorBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.InfectiousRatio, StringFormat=I: \{0:F2\}}" Foreground="{DynamicResource InfectiousColorBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.RecoveredRatio, StringFormat=R: \{0:F2\}}" Foreground="{DynamicResource RecoveredColorBrush}" HorizontalAlignment="Center"/>
                     </UniformGrid>
                     <Grid Width="280" Height="38" Margin="10,4,10,10" Grid.Row="5">
                         <Slider Value="{Binding SusceptibleRatioVar.Value}" Maximum="{Binding SusceptibleRatioMaxValue.Value}" Width="{Binding SusceptibleRatioMaxValue.Value, Converter={StaticResource ToSusceptibleRatioWidthConverter}}" Style="{DynamicResource RateSliderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0"/>
