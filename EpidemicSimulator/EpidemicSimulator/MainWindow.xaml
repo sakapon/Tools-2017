@@ -45,6 +45,8 @@
         <SolidColorBrush x:Key="InfectiousColorBrush" Color="#FFFF6600"/>
         <SolidColorBrush x:Key="RecoveredColorBrush" Color="#FF339900"/>
         <local:FuncConverter x:Key="InverseBooleanConverter" ToFunc="{x:Static local:MainWindow.InverseBoolean}"/>
+        <local:FuncConverter x:Key="ToSusceptibleRatioWidthConverter" ToFunc="{x:Static local:MainWindow.ToSusceptibleRatioWidth}"/>
+        <local:FuncConverter x:Key="ToInfectiousRatioWidthConverter" ToFunc="{x:Static local:MainWindow.ToInfectiousRatioWidth}"/>
     </Window.Resources>
     <Window.DataContext>
         <local:MainViewModel/>
@@ -58,6 +60,9 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Width:" Style="{DynamicResource CaptionTextStyle}"/>
                     <TextBlock Text="{Binding AppModel.InitialSettings.Width.Value}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right"/>
@@ -65,6 +70,13 @@
                     <TextBlock Text="Height:" Style="{DynamicResource CaptionTextStyle}" Grid.Row="2"/>
                     <TextBlock Text="{Binding AppModel.InitialSettings.Height.Value}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right" Grid.Row="2"/>
                     <Slider Value="{Binding AppModel.InitialSettings.Height.Value}" Style="{DynamicResource SizeSliderStyle}" Grid.Row="3"/>
+                    <UniformGrid Columns="3" Margin="10,10,10,4" Grid.Row="4">
+                        <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.SusceptibleRatio, StringFormat=S: \{0:F2\}}" Foreground="{DynamicResource SusceptibleColorBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.InfectiousRatio, StringFormat=S: \{0:F2\}}" Foreground="{DynamicResource InfectiousColorBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.RecoveredRatio, StringFormat=S: \{0:F2\}}" Foreground="{DynamicResource RecoveredColorBrush}" HorizontalAlignment="Center"/>
+                    </UniformGrid>
+                    <Slider Value="{Binding SusceptibleRatioVar.Value}" Maximum="{Binding SusceptibleRatioMaxValue.Value}" Width="{Binding SusceptibleRatioMaxValue.Value, Converter={StaticResource ToSusceptibleRatioWidthConverter}}" Style="{DynamicResource RateSliderStyle}" Grid.Row="5" HorizontalAlignment="Left"/>
+                    <Slider Value="{Binding InfectiousRatioVar.Value}" Maximum="{Binding InfectiousRatioMaxValue.Value}" Width="{Binding InfectiousRatioMaxValue.Value, Converter={StaticResource ToInfectiousRatioWidthConverter}}" Style="{DynamicResource RateSliderStyle}" Grid.Row="6" HorizontalAlignment="Right" Minimum="0.01"/>
                 </Grid>
                 <Grid>
                     <Grid.RowDefinitions>
