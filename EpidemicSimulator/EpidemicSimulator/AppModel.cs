@@ -13,7 +13,7 @@ namespace EpidemicSimulator
 {
     public class AppModel
     {
-        static readonly TimeSpan SnapshotInterval = TimeSpan.FromSeconds(1 / 30.0);
+        static readonly TimeSpan SnapshotInterval = TimeSpan.FromSeconds(1 / 60.0);
 
         public InitialSettings InitialSettings { get; } = new InitialSettings();
         public RealtimeSettings RealtimeSettings { get; } = new RealtimeSettings();
