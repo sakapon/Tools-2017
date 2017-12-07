@@ -45,6 +45,7 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="6"/>
         </Style>
         <SolidColorBrush x:Key="SusceptibleColorBrush" Color="#FF0066CC"/>
         <SolidColorBrush x:Key="InfectiousColorBrush" Color="#FFFF6600"/>
