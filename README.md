@@ -16,3 +16,15 @@ See [document](https://github.com/sakapon/Tools-2017/wiki/Connective-Bot).
 [@bot_connective](https://twitter.com/bot_connective)
 
 ![ConnectiveBot](ConnectiveBot/Twitter/ConnectiveBot-20170509.jpg)
+
+## Epidemic Simulator
+Epidemic Simulator is a tool to simulate the SIR epidemic model described as follows:
+
+```
+S' = θR - βSI
+I' = βSI - γI
+R' = γI - θR
+```
+
+The simulation by this tool is a kind of cellular automaton.  
+See [document](https://github.com/sakapon/Tools-2017/wiki/Epidemic-Simulator).
