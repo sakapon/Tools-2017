@@ -1,0 +1,137 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EpidemicSimulator"
+        xmlns:ToggleSwitch="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
+        x:Class="EpidemicSimulator.MainWindow"
+        mc:Ignorable="d"
+        Title="Epidemic Simulator" Height="800" Width="1200" FontSize="22">
+    <Window.Resources>
+        <Style x:Key="CaptionTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="10,10,10,4"/>
+        </Style>
+        <Style x:Key="PopulationTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="32"/>
+        </Style>
+        <Style x:Key="SliderStyle" TargetType="{x:Type Slider}">
+            <Setter Property="Width" Value="280"/>
+            <Setter Property="Margin" Value="10,4,10,10"/>
+            <Setter Property="IsMoveToPointEnabled" Value="True"/>
+        </Style>
+        <Style x:Key="SizeSliderStyle" TargetType="{x:Type Slider}" BasedOn="{StaticResource SliderStyle}">
+            <Setter Property="Maximum" Value="400"/>
+            <Setter Property="Minimum" Value="10"/>
+            <Setter Property="LargeChange" Value="10"/>
+            <Setter Property="SmallChange" Value="1"/>
+        </Style>
+        <Style x:Key="RateSliderStyle" TargetType="{x:Type Slider}" BasedOn="{StaticResource SliderStyle}">
+            <Setter Property="Maximum" Value="1"/>
+            <Setter Property="Minimum" Value="0"/>
+            <Setter Property="LargeChange" Value="0.1"/>
+            <Setter Property="SmallChange" Value="0.01"/>
+        </Style>
+        <Style x:Key="SwitchStyle" TargetType="{x:Type ToggleSwitch:HorizontalToggleSwitch}">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="ThumbSize" Value="100"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Margin" Value="20"/>
+        </Style>
+        <Style x:Key="SettingsBorderStyle" TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush" Value="#FF808080"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="6"/>
+        </Style>
+        <SolidColorBrush x:Key="SusceptibleColorBrush" Color="#FF0066CC"/>
+        <SolidColorBrush x:Key="InfectiousColorBrush" Color="#FFFF6600"/>
+        <SolidColorBrush x:Key="RecoveredColorBrush" Color="#FF339900"/>
+        <local:FuncConverter x:Key="InverseBooleanConverter" ToFunc="{x:Static local:MainWindow.InverseBoolean}"/>
+        <local:FuncConverter x:Key="ToInitialSettingsBackgroundConverter" ToFunc="{x:Static local:MainWindow.ToInitialSettingsBackground}"/>
+        <local:FuncConverter x:Key="ToSusceptibleRatioWidthConverter" ToFunc="{x:Static local:MainWindow.ToSusceptibleRatioWidth}"/>
+        <local:FuncConverter x:Key="ToInfectiousRatioWidthConverter" ToFunc="{x:Static local:MainWindow.ToInfectiousRatioWidth}"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <Viewbox>
+        <DockPanel Height="800" Width="1200" Margin="10">
+            <StackPanel DockPanel.Dock="Right" Margin="10">
+                <Border Style="{DynamicResource SettingsBorderStyle}" IsEnabled="{Binding AppModel.IsRunning.Value, Converter={StaticResource InverseBooleanConverter}}" Background="{Binding AppModel.IsRunning.Value, Converter={StaticResource ToInitialSettingsBackgroundConverter}}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Width:" Style="{DynamicResource CaptionTextStyle}"/>
+                        <TextBlock Text="{Binding AppModel.InitialSettings.Width.Value}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right"/>
+                        <Slider Value="{Binding AppModel.InitialSettings.Width.Value}" Style="{DynamicResource SizeSliderStyle}" Grid.Row="1"/>
+                        <TextBlock Text="Height:" Style="{DynamicResource CaptionTextStyle}" Grid.Row="2"/>
+                        <TextBlock Text="{Binding AppModel.InitialSettings.Height.Value}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right" Grid.Row="2"/>
+                        <Slider Value="{Binding AppModel.InitialSettings.Height.Value}" Style="{DynamicResource SizeSliderStyle}" Grid.Row="3"/>
+                        <UniformGrid Columns="3" Margin="10,10,10,4" Grid.Row="4">
+                            <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.SusceptibleRatio, StringFormat=S: \{0:F2\}}" Foreground="{DynamicResource SusceptibleColorBrush}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.InfectiousRatio, StringFormat=I: \{0:F2\}}" Foreground="{DynamicResource InfectiousColorBrush}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding AppModel.InitialSettings.PopulationRatio.Value.RecoveredRatio, StringFormat=R: \{0:F2\}}" Foreground="{DynamicResource RecoveredColorBrush}" HorizontalAlignment="Center"/>
+                        </UniformGrid>
+                        <Grid Width="280" Height="38" Margin="10,4,10,10" Grid.Row="5">
+                            <Slider Value="{Binding SusceptibleRatioVar.Value}" Maximum="{Binding SusceptibleRatioMaxValue.Value}" Width="{Binding SusceptibleRatioMaxValue.Value, Converter={StaticResource ToSusceptibleRatioWidthConverter}}" Style="{DynamicResource RateSliderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0"/>
+                            <Slider Value="{Binding InfectiousRatioVar.Value}" Maximum="{Binding InfectiousRatioMaxValue.Value}" Width="{Binding InfectiousRatioMaxValue.Value, Converter={StaticResource ToInfectiousRatioWidthConverter}}" Style="{DynamicResource RateSliderStyle}" Minimum="0.01" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0"/>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <Border Style="{DynamicResource SettingsBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Infection Rate:" Style="{DynamicResource CaptionTextStyle}"/>
+                        <TextBlock Text="{Binding AppModel.RealtimeSettings.InfectionRate.Value, StringFormat=\{0:F2\}}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right"/>
+                        <Slider Value="{Binding AppModel.RealtimeSettings.InfectionRate.Value}" Style="{DynamicResource RateSliderStyle}" Grid.Row="1"/>
+                        <TextBlock Text="Recovery Rate:" Style="{DynamicResource CaptionTextStyle}" Grid.Row="2"/>
+                        <TextBlock Text="{Binding AppModel.RealtimeSettings.RecoveryRate.Value, StringFormat=\{0:F2\}}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right" Grid.Row="2"/>
+                        <Slider Value="{Binding AppModel.RealtimeSettings.RecoveryRate.Value}" Style="{DynamicResource RateSliderStyle}" Grid.Row="3"/>
+                        <TextBlock Text="Deimmunization Rate:" Style="{DynamicResource CaptionTextStyle}" Grid.Row="4"/>
+                        <TextBlock Text="{Binding AppModel.RealtimeSettings.DeimmunizationRate.Value, StringFormat=\{0:F2\}}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right" Grid.Row="4"/>
+                        <Slider Value="{Binding AppModel.RealtimeSettings.DeimmunizationRate.Value}" Style="{DynamicResource RateSliderStyle}" Grid.Row="5"/>
+                        <CheckBox Content="Looping Map" IsChecked="{Binding AppModel.RealtimeSettings.IsMapLooping.Value}" Margin="10" VerticalContentAlignment="Center" Grid.Row="6"/>
+                        <TextBlock Text="Interval:" Style="{DynamicResource CaptionTextStyle}" Grid.Row="7"/>
+                        <TextBlock Text="{Binding AppModel.RealtimeSettings.ExecutionInterval.Value, StringFormat=\{0:F2\} s}" Style="{DynamicResource CaptionTextStyle}" HorizontalAlignment="Right" Grid.Row="7"/>
+                        <Slider Value="{Binding AppModel.RealtimeSettings.ExecutionInterval.Value}" Style="{DynamicResource RateSliderStyle}" Grid.Row="8"/>
+                    </Grid>
+                </Border>
+                <ToggleSwitch:HorizontalToggleSwitch Style="{DynamicResource SwitchStyle}" IsChecked="{Binding AppModel.IsRunning.Value, Mode=TwoWay}"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="10,0,10,20">
+                <TextBlock Text="{Binding AppModel.InfectionSnapshot.Value.Turn, StringFormat=Turn: \{0\}}" Margin="10" HorizontalAlignment="Center" FontSize="24"/>
+                <UniformGrid Columns="3" DataContext="{Binding PopulationSummary.Value}">
+                    <TextBlock Text="{Binding Susceptible, StringFormat=S: \{0\}}" Foreground="{DynamicResource SusceptibleColorBrush}" Style="{DynamicResource PopulationTextStyle}"/>
+                    <TextBlock Text="{Binding Infectious, StringFormat=I: \{0\}}" Foreground="{DynamicResource InfectiousColorBrush}" Style="{DynamicResource PopulationTextStyle}"/>
+                    <TextBlock Text="{Binding Recovered, StringFormat=R: \{0\}}" Foreground="{DynamicResource RecoveredColorBrush}" Style="{DynamicResource PopulationTextStyle}"/>
+                </UniformGrid>
+                <StackPanel Height="50" Orientation="Horizontal" DataContext="{Binding PopulationLayout.Value}" Margin="10">
+                    <Rectangle Width="{Binding SusceptibleWidth}" Fill="{DynamicResource SusceptibleColorBrush}"/>
+                    <Rectangle Width="{Binding InfectiousWidth}" Fill="{DynamicResource InfectiousColorBrush}"/>
+                    <Rectangle Width="{Binding RecoveredWidth}" Fill="{DynamicResource RecoveredColorBrush}"/>
+                </StackPanel>
+            </StackPanel>
+            <Image Source="{Binding PopulationImage.Value}" Margin="20"/>
+        </DockPanel>
+    </Viewbox>
+</Window>
