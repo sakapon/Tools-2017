@@ -50,6 +50,7 @@
         <SolidColorBrush x:Key="InfectiousColorBrush" Color="#FFFF6600"/>
         <SolidColorBrush x:Key="RecoveredColorBrush" Color="#FF339900"/>
         <local:FuncConverter x:Key="InverseBooleanConverter" ToFunc="{x:Static local:MainWindow.InverseBoolean}"/>
+        <local:FuncConverter x:Key="ToInitialSettingsBackgroundConverter" ToFunc="{x:Static local:MainWindow.ToInitialSettingsBackground}"/>
         <local:FuncConverter x:Key="ToSusceptibleRatioWidthConverter" ToFunc="{x:Static local:MainWindow.ToSusceptibleRatioWidth}"/>
         <local:FuncConverter x:Key="ToInfectiousRatioWidthConverter" ToFunc="{x:Static local:MainWindow.ToInfectiousRatioWidth}"/>
     </Window.Resources>
@@ -59,8 +60,8 @@
     <Viewbox>
         <DockPanel Height="800" Width="1200" Margin="10">
             <StackPanel DockPanel.Dock="Right" Margin="10">
-                <Border Style="{DynamicResource SettingsBorderStyle}">
-                    <Grid IsEnabled="{Binding AppModel.IsRunning.Value, Converter={StaticResource InverseBooleanConverter}}">
+                <Border Style="{DynamicResource SettingsBorderStyle}" IsEnabled="{Binding AppModel.IsRunning.Value, Converter={StaticResource InverseBooleanConverter}}" Background="{Binding AppModel.IsRunning.Value, Converter={StaticResource ToInitialSettingsBackgroundConverter}}">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
