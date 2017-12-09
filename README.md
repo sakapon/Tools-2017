@@ -26,5 +26,19 @@ I' = βSI - γI
 R' = γI - θR
 ```
 
+where
+
+```
+S(t): susceptible people
+I(t): infected people
+R(t): recovered people
+β: infection rate
+γ: recovery rate
+θ: deimmunization rate
+```
+
 The simulation by this tool is a kind of cellular automaton.  
 See [document](https://github.com/sakapon/Tools-2017/wiki/Epidemic-Simulator).
+
+![Epidemic-Wave](Images/EpidemicSimulator/Epidemic-Wave.gif)
+![Epidemic](Images/EpidemicSimulator/Epidemic.png)  
