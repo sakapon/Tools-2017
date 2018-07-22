@@ -27,7 +27,7 @@ namespace ConnectiveConsole
             var format = GetFormat();
             var text = string.Format(format, data1.title, data2.title);
 
-            return $"{text}\n? {data1.title} {data1.uri}\n? {data2.title} {data2.uri}";
+            return $"{text}\n☞ {data1.title} {data1.uri}\n☞ {data2.title} {data2.uri}";
         }
 
         const string Uri_Wikipedia_Random = "https://ja.wikipedia.org/wiki/%E7%89%B9%E5%88%A5:%E3%81%8A%E3%81%BE%E3%81%8B%E3%81%9B%E8%A1%A8%E7%A4%BA";
