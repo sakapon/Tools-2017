@@ -39,8 +39,9 @@ namespace ConnectiveConsole
                 var response = await http.GetAsync(Uri_Wikipedia_Random);
                 var responseBody = await response.Content.ReadAsStringAsync();
                 var title = GetTitle(responseBody);
+                var uri = FormatUri(response.RequestMessage.RequestUri);
 
-                return new { title, uri = response.RequestMessage.RequestUri.AbsoluteUri };
+                return new { title, uri };
             }
         }
 
@@ -51,6 +52,13 @@ namespace ConnectiveConsole
 
             var title = match.Groups[1].Value;
             return WebUtility.HtmlDecode(title);
+        }
+
+        static string FormatUri(Uri uri)
+        {
+            var original = uri.Segments.Last();
+            var escaped = Uri.EscapeDataString(Uri.UnescapeDataString(original));
+            return $"https://ja.wikipedia.org/wiki/{escaped}";
         }
 
         static readonly string[] formats =
